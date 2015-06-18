@@ -1,6 +1,7 @@
 {
     "name": "jlawrence/lw",
     "description": "Liquid Web Framework",
+    "license": "MIT",
     "minimum-stability": "stable",
     "authors": [
         {
@@ -12,5 +13,10 @@
     "require": {
         "php": ">=5.3.0",
         "smarty/smarty": "~3.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "jlawrence\\lw\\": "src/"
+        }
     }
 }
