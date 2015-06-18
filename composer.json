@@ -1,0 +1,15 @@
+{
+    "name": "jlawrence/lw",
+    "description": "Liquid Web Framework",
+    "minimum-stability": "stable",
+    "authors": [
+        {
+            "name": "Jon Lawrence",
+            "email": "jon@jon-lawrence.com"
+        }
+    ],
+
+    "require": {
+        "smarty/smarty": "~3.1"
+    }
+}
