@@ -16,14 +16,23 @@ class Factory implements CoreInterface\FactoryBase
     /**
      * variables to hold core modules
      */
+    /** @var Events */
     public $event;
+    /** @var Sessions */
     public $session;
+    /** @var Debug */
     public $debug;
+    /** @var Crypt  */
     public $crypt;
+    /** @var Pdo  */
     public $pdo;
+    /** @var Cookies  */
     public $cookie;
+    /** @var Template  */
     public $template;
+    /** @var Email  */
     public $email;
+    /** @var Users  */
     public $users;
 
     /**
@@ -31,14 +40,7 @@ class Factory implements CoreInterface\FactoryBase
      */
     public function __construct($iniFile)
     {
-        $bt = debug_backtrace();
-        $this->baseDir = dirname($bt[0]['file']). DIRECTORY_SEPARATOR;
-        //echo $this->baseDir;
-        $this->event = new Events($this);
-        $this->session = new Sessions($this);
-
-        $this->debug = new Debug($this);
-        $this->debug->notice("Loaded Debug Module");
+        $this->loadBaseMods();
 
         $this->loadIni($iniFile);
         $this->debug->notice("Loaded INI File");
@@ -61,6 +63,10 @@ class Factory implements CoreInterface\FactoryBase
         $this->email = new Email($this, $this->configArray['Email']);
         $this->debug->notice("Loaded Email module");
 
+        $this->event = new Events($this);
+
+        $this->session = new Sessions($this);
+
         $this->users = new Users($this);
         $this->debug->notice("Loaded User module");
     }
@@ -69,5 +75,15 @@ class Factory implements CoreInterface\FactoryBase
     {
         $cfg = parse_ini_file($iniFile, true);
         $this->configArray = $cfg;
+    }
+
+    protected function loadBaseMods()
+    {
+        $bt = debug_backtrace();
+        $this->baseDir = dirname($bt[0]['file']). DIRECTORY_SEPARATOR;
+        //echo $this->baseDir;
+
+        $this->debug = new Debug($this);
+        $this->debug->notice("Loaded Debug Module");
     }
 } 
