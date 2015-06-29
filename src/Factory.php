@@ -40,8 +40,7 @@ class Factory implements CoreInterface\FactoryBase
         $this->debug = new Debug($this);
         $this->debug->notice("Loaded Debug Module");
 
-        $cfg = parse_ini_file($iniFile, true);
-        $this->configArray = $cfg;
+        $this->loadIni($iniFile);
         $this->debug->notice("Loaded INI File");
 
         $this->url = $this->configArray['Site']['url'];
@@ -66,28 +65,9 @@ class Factory implements CoreInterface\FactoryBase
         $this->debug->notice("Loaded User module");
     }
 
-    public function Load()
+    protected function loadIni($iniFile)
     {
-        self::$baseDir = dirname(__DIR__). DIRECTORY_SEPARATOR;
-        self::initCores("Debug,Crypt");
-        //Debug::init();
-        $this->debug->setDebug(true);
-        //Crypt::init();
-    }
-
-    public function initCores($cores)
-    {
-        $ns = __NAMESPACE__;
-        if(!is_array($cores)) {
-            $cores = preg_replace("/\s/", "", $cores);
-            $cores = explode(',', $cores);
-        }
-        foreach($cores as $core){
-            if($core != "") {
-                //echo "{$ns}\\{$core}::init<br>";
-                call_user_func("{$ns}\\{$core}::init");
-                $this->debug->notice("Initialized: {$ns}\\{$core}");
-            }
-        }
+        $cfg = parse_ini_file($iniFile, true);
+        $this->configArray = $cfg;
     }
 } 
